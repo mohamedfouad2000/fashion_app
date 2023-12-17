@@ -185,35 +185,63 @@ class DetailsPage extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      AddToCartButton(
-                        actionAfterAdding: () {},
-                        cartModel: CartItem(
-                            id: pro!.id!,
-                            name: pro!.nameEn!,
-                            price: price!,
-                            quantity: 1,
-                            additionalData: {
-                              'max': pro?.productAttributes?.isNotEmpty == true
-                                  ? pro?.productAttributes![0].amount
-                                  : 1
-                            },
-                            image: pro!.img!),
-                        child: Container(
+
+                      if (pro?.productAttributes?.isEmpty != true)
+                        AddToCartButton(
+                          actionAfterAdding: () {},
+                          cartModel: CartItem(
+                              id: pro!.id!,
+                              name: pro!.nameEn!,
+                              price: price!,
+                              quantity: 1,
+                              additionalData: {
+                                "size": pro?.productAttributes?.isNotEmpty ==
+                                        true
+                                    ? pro?.productAttributes![0].size?.nameEn
+                                    : "",
+                                'details': pro?.detailsEn != null
+                                    ? pro!.detailsEn
+                                    : "",
+                                'max':
+                                    pro?.productAttributes?.isNotEmpty == true
+                                        ? pro?.productAttributes![0].amount
+                                        : 1
+                              },
+                              image: pro!.img!),
+                          child: Container(
+                            height: 50,
+                            margin: const EdgeInsets.all(10),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "Add to cart",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (pro?.productAttributes?.isEmpty == true)
+                        Container(
                           height: 50,
                           margin: const EdgeInsets.all(10),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: Colors.blue,
+                            color: Colors.black,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Center(
                             child: Text(
-                              "Add to cart",
-                              style: TextStyle(color: Colors.white),
+                              "Unavailable",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 18.0),
                             ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),

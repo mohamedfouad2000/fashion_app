@@ -1,6 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:fancy_cart/fancy_cart.dart';
 import 'package:fashon_app/Feature/Home/data/brand_model/brand_model.dart';
 import 'package:fashon_app/Feature/Home/data/category_model/category_model.dart';
+import 'package:fashon_app/Feature/Home/data/city_model/city_model.dart';
+import 'package:fashon_app/Feature/Home/data/count_model/count_model.dart';
 import 'package:fashon_app/Feature/Home/data/fav_model/fav_model.dart';
 import 'package:fashon_app/Feature/Home/data/products_model/products_model.dart';
 import 'package:fashon_app/Feature/Home/data/profile_model/profile_model.dart';
@@ -8,7 +11,7 @@ import 'package:fashon_app/Feature/Home/data/slider_model/slider_model.dart';
 import 'package:fashon_app/Feature/Home/presentation/manger/home_states.dart';
 import 'package:fashon_app/Feature/Home/presentation/screens/shopping_cart.dart';
 import 'package:fashon_app/Feature/Home/presentation/screens/fav_page.dart';
-import 'package:fashon_app/Feature/Home/presentation/screens/settings.dart';
+import 'package:fashon_app/Feature/Home/presentation/screens/profile.dart';
 import 'package:fashon_app/Feature/Home/presentation/screens/main_home.dart';
 import 'package:fashon_app/core/constans/end_point.dart';
 import 'package:fashon_app/core/remote/dio_helper.dart';
@@ -19,6 +22,18 @@ class HomeCubit extends Cubit<HomeStates> {
   HomeCubit() : super(InitState());
   static HomeCubit get(context) => BlocProvider.of(context);
   ProductsModel? pro;
+  String? countryName;
+  String? cityName;
+
+  void changecountrName({required String value}) {
+    countryName = value;
+    emit(ChangeNAmestate());
+  }
+
+  void changecityName({required String value}) {
+    cityName = value;
+    emit(ChangeNAmestate());
+  }
 
   int? currentIndex = 0;
   void changeIndex({required value}) {
@@ -37,6 +52,13 @@ class HomeCubit extends Cubit<HomeStates> {
       });
     }
   }
+
+  List<String> headerName = [
+    "Home",
+    "Favorite",
+    "shopping Cart",
+    "Profile",
+  ];
 
   Future<void> getProduct(
       {String? search, int? page, required int? uId}) async {
@@ -72,7 +94,9 @@ class HomeCubit extends Cubit<HomeStates> {
       searchController: TextEditingController(),
     ),
     const FavPage(),
-    const ShoppingCart(),
+    const ShoppingCart(
+        // x: false,
+        ),
     const Settings()
   ];
   SliderModel? slid;
@@ -207,6 +231,86 @@ class HomeCubit extends Cubit<HomeStates> {
       emit(GetProductByBrandAndCatSucc());
     }).catchError((onError) {
       emit(GetProductByBrandAndCatError());
+    });
+  }
+
+  void editProfile(
+      {required String user, required String phone, required String email}) {
+    print(user);
+    print(int.parse(phone));
+    print(email);
+
+    emit(EditProfileDataLoading());
+    DioHelper.postData(
+            url: UPDATEPROFILE,
+            data: {
+              'name': user,
+              'mobile': phone,
+              'email': email,
+            },
+            token: TOKEN)
+        .then((value) {
+      print(value);
+      if (value.data['status'] == true) {
+        emit(EditProfileDataSucc(msq: value.data['message']));
+        getProfile();
+      } else {
+        emit(EditProfileDataError(msq: value.data['message']));
+      }
+    }).catchError((error) {
+      emit(EditProfileDataError(msq: error.toString()));
+    });
+  }
+
+  CountModel? count;
+  Future<void> getCountry() async {
+    emit(GetCountLoading());
+
+    DioHelper.getData(url: COUNTRIES, token: TOKEN).then((value) {
+      count = CountModel.fromJson(value.data);
+      // city = null;
+      emit(GetCountSucc());
+    }).catchError((onError) {
+      emit(GetCountError(msq: onError.toString()));
+    });
+  }
+
+  CityModel? city;
+  Future<void> getCities({required int id}) async {
+    emit(GetcityLoading());
+
+    DioHelper.getData(url: 'cities', token: TOKEN, data: {'country_id': id})
+        .then((value) {
+      city = CityModel.fromJson(value.data);
+      emit(GetcitySucc());
+    }).catchError((onError) {
+      emit(GetcityError(msq: onError.toString()));
+    });
+  }
+
+  Future<void> UserOrder(
+      {required double total_price, required List<CartItem> pro}) async {
+    emit(OrderUserLoading());
+    // ignore: non_constant_identifier_names
+    List<Map<String, int>?> x = [];
+    for (var e in pro) {
+      x.add({
+        "product_id": e.id,
+        "price": e.price.toInt(),
+        'quantity': e.quantity
+      });
+    }
+    DioHelper.postData(url: 'user_orders', token: TOKEN, data: {
+      "order_total_price": total_price,
+      "coupon_discount": 0,
+      "payment_type": "online_payment",
+      "coupon_id": 10,
+      "user_notes": "fdljoi5j4jforoi5",
+      "products": x,
+    }).then((value) {
+      emit(OrderUserSucc(msq: value.data['error_mesage_en']));
+    }).catchError((error) {
+      emit(OrderUserError(msq: error.toString()));
     });
   }
 }

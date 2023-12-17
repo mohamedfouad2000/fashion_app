@@ -21,7 +21,11 @@ class BrandPage extends StatelessWidget {
     return BlocConsumer<HomeCubit, HomeStates>(
       builder: (BuildContext context, state) {
         return Scaffold(
-          appBar: mainAppBar(context: context),
+          // appBar: mainAppBar(context: context, x: "Brands"),
+          appBar: AppBar(
+            title: const Text("Brands"),
+            centerTitle: true,
+          ),
           body: Padding(
             padding: const EdgeInsets.all(10),
             child: ConditionalBuilder(

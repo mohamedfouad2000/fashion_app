@@ -4,7 +4,6 @@ import 'package:fashon_app/core/constans/end_point.dart';
 import 'package:fashon_app/core/utils/components.dart';
 import 'package:fashon_app/core/utils/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
@@ -26,7 +25,11 @@ class Homepage extends StatelessWidget {
       child: BlocConsumer<HomeCubit, HomeStates>(
         builder: (BuildContext context, state) {
           return Scaffold(
-              appBar: mainAppBar(context: context),
+              appBar: mainAppBar(
+                  cart: true,
+                  context: context,
+                  x: HomeCubit.get(context)
+                      .headerName[HomeCubit.get(context).currentIndex!]),
               drawer: Drawer(
                 elevation: 0.0,
                 width: SizeConfig.screenWidth! * .6,
@@ -37,32 +40,6 @@ class Homepage extends StatelessWidget {
                   children: [header(context), myDrawerList(context)],
                 )),
               ),
-              // bottomNavigationBar: BottomNavigationBar(
-              //   type: BottomNavigationBarType.fixed,
-              //   // elevation: 20.0,
-              //   items: const [
-              //     BottomNavigationBarItem(
-              //       icon: Icon(Icons.home_filled),
-              //       label: "Home",
-              //     ),
-              //     BottomNavigationBarItem(
-              //       icon: Icon(Icons.favorite_border),
-              //       label: "Favourite",
-              //     ),
-              //     BottomNavigationBarItem(
-              //       icon: Icon(Icons.shopping_cart_outlined),
-              //       label: "Shopping cart",
-              //     ),
-              //     BottomNavigationBarItem(
-              //       icon: Icon(Icons.person_2_outlined),
-              //       label: "Settings",
-              //     ),
-              //   ],
-              //   currentIndex: HomeCubit.get(context).currentIndex!,
-              //   onTap: (value) {
-              //     HomeCubit.get(context).changeIndex(value: value);
-              //   },
-              // ),
               bottomNavigationBar: CurvedNavigationBar(
                 backgroundColor: Colors.transparent,
                 color: Colors.blue,
@@ -77,20 +54,20 @@ class Homepage extends StatelessWidget {
                     Icons.home,
                     color: HomeCubit.get(context).currentIndex == 0
                         ? Colors.white
-                        : Colors.black,
+                        : Colors.white.withOpacity(.8),
                   ),
                   Icon(Icons.favorite,
                       color: HomeCubit.get(context).currentIndex == 1
                           ? Colors.white
-                          : Colors.black),
+                          : Colors.white.withOpacity(.8)),
                   Icon(Icons.shopping_cart,
                       color: HomeCubit.get(context).currentIndex == 2
                           ? Colors.white
-                          : Colors.black),
+                          : Colors.white.withOpacity(.8)),
                   Icon(Icons.person,
                       color: HomeCubit.get(context).currentIndex == 3
                           ? Colors.white
-                          : Colors.black),
+                          : Colors.white.withOpacity(.8)),
                 ],
                 onTap: (value) {
                   HomeCubit.get(context).changeIndex(value: value);

@@ -72,3 +72,47 @@ class GetProfileDataLoading extends HomeStates {}
 class GetProfileDataSucc extends HomeStates {}
 
 class GetProfileDataError extends HomeStates {}
+
+class EditProfileDataLoading extends HomeStates {}
+
+class EditProfileDataSucc extends HomeStates {
+  String msq;
+  EditProfileDataSucc({required this.msq});
+}
+
+class EditProfileDataError extends HomeStates {
+  String msq;
+  EditProfileDataError({required this.msq});
+}
+
+class GetCountLoading extends HomeStates {}
+
+class GetCountSucc extends HomeStates {}
+
+class GetCountError extends HomeStates {
+  String msq;
+  GetCountError({required this.msq});
+}
+
+class GetcityLoading extends HomeStates {}
+
+class GetcitySucc extends HomeStates {}
+
+class GetcityError extends HomeStates {
+  String msq;
+  GetcityError({required this.msq});
+}
+
+class ChangeNAmestate extends HomeStates {}
+
+class OrderUserLoading extends HomeStates {}
+
+class OrderUserSucc extends HomeStates {
+  String msq;
+  OrderUserSucc({required this.msq});
+}
+
+class OrderUserError extends HomeStates {
+  String msq;
+  OrderUserError({required this.msq});
+}

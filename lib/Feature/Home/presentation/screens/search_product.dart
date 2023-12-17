@@ -22,7 +22,7 @@ class SearchProduct extends StatelessWidget {
     return BlocConsumer<HomeCubit, HomeStates>(
       builder: (BuildContext context, state) {
         return Scaffold(
-          appBar: mainAppBar(context: context),
+          appBar: mainAppBar(context: context, cart: false),
           body: ConditionalBuilder(
             condition: HomeCubit.get(context).searchProduct?.status == true,
             builder: (BuildContext context) {

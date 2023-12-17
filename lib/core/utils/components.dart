@@ -183,44 +183,53 @@ Widget textFileldSearch(
   );
 }
 
-AppBar mainAppBar({required context}) => AppBar(
+AppBar mainAppBar(
+        {String x = '', required context, Widget? le, required bool cart}) =>
+    AppBar(
       // elevation: 20.0,
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,
+      title: Text(
+        x,
+        style: StylesData.TitleStyle.copyWith(fontSize: 20),
+      ),
+      centerTitle: true,
       actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Stack(
-            alignment: Alignment.topLeft,
-            children: [
-              IconButton(
-                onPressed: () {
-                  HomeCubit.get(context).changeIndex(value: 2);
-                },
-                icon: const Image(
-                  image: AssetImage(
-                    'assets/img/shoping.png',
-                  ),
-                  height: 50,
-                ),
-              ),
-              CircleAvatar(
-                radius: 10,
-                backgroundColor: const Color.fromARGB(255, 218, 90, 81),
-                child: TotalItemsCartWidget(
-                  totalItemsBuilder: (int totalItems) {
-                    return Text(
-                      "$totalItems",
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
-                    );
+        if (cart)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Stack(
+              alignment: Alignment.topLeft,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    HomeCubit.get(context).changeIndex(value: 2);
                   },
+                  icon: const Image(
+                    image: AssetImage(
+                      'assets/img/shoping.png',
+                    ),
+                    height: 50,
+                  ),
                 ),
-              )
-            ],
-          ),
-        )
+                CircleAvatar(
+                  radius: 10,
+                  backgroundColor: const Color.fromARGB(255, 218, 90, 81),
+                  child: TotalItemsCartWidget(
+                    totalItemsBuilder: (int totalItems) {
+                      return Text(
+                        "$totalItems",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white),
+                      );
+                    },
+                  ),
+                )
+              ],
+            ),
+          )
       ],
+      leading: le,
     );
 
 Widget myDrawerList(context) {
@@ -267,6 +276,7 @@ Widget menuItem(int id, String title, IconData icon, context) {
         }
         if (id == 4) {
           Navigator.pop(context);
+
           HomeCubit.get(context).changeIndex(value: 3);
 
           // NavegatorPush(context, yourcomplaints());
@@ -324,12 +334,12 @@ Widget header(context) => Container(
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                 ),
-                child: CircleAvatar(
+                child: const CircleAvatar(
                   // backgroundColor: Colors.red,
 
                   radius: 40,
                   backgroundImage: NetworkImage(
-                    "$IMGURL ${ProfileData?.data?.profilePhotoPath}",
+                    PERSONIMG,
                   ),
                 ),
               ),

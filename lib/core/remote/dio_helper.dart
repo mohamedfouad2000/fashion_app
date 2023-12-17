@@ -13,6 +13,8 @@ class DioHelper {
   static Future<Response> getData({
     required String url,
     Map<String, dynamic>? query,
+    Map<String, dynamic>? data,
+
     // String lang = 'en',
     int? sub = 0,
     int? brand = 0,
@@ -24,7 +26,7 @@ class DioHelper {
       // 'Accept-Encoding': "gzip, deflate, br",
       // "Host": "<calculated when request is sent>"
     };
-    return await dio!.get(url, queryParameters: query);
+    return await dio!.get(url, queryParameters: query, data: data);
   }
 
   static Future<Response> getDataWithoutToken({

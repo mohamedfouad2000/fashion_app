@@ -76,10 +76,10 @@ Widget favItem({required Product? model, required context}) {
   return favList?[model?.id] == true
       ? InkWell(
           onTap: () {
-            print(favList);
+            // print(favList);
             searchProduct(model?.id, context).then((value) {
               if (value.id == null) {
-                print("siu Isuauiasuiduioasd");
+                // print("siu Isuauiasuiduioasd");
                 Datum d = Datum(
                     id: model?.id,
                     nameEn: model?.nameEn,
@@ -159,9 +159,9 @@ Widget favItem({required Product? model, required context}) {
                                 HomeCubit.get(context)
                                     .addOrRemoveFav(id: model?.id)
                                     .then((value) {
-                                  print(
-                                      "_______________________________________--");
-                                  print(favList);
+                                  // print(
+                                  // "_______________________________________--");
+                                  // print(favList);
                                 });
                               },
                               icon: favList?[model?.id] == true

@@ -27,3 +27,10 @@ Map<int?, bool?>? favList = {};
 List<CartItem> cartList = [];
 
 int? cardInt;
+
+const UPDATEPROFILE = 'update_profile/0';
+
+const PERSONIMG =
+    'https://cdn.vectorstock.com/i/1000x1000/85/71/young-black-man-avatar-character-vector-24748571.webp';
+
+const COUNTRIES = '/countries';

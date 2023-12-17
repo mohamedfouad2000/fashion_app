@@ -1,8 +1,6 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fashon_app/Feature/Home/presentation/home.dart';
 import 'package:fashon_app/Feature/Home/presentation/manger/home_cubit.dart';
 import 'package:fashon_app/Feature/Home/presentation/manger/home_states.dart';
-import 'package:fashon_app/Feature/Home/presentation/screens/eroor_page.dart';
 import 'package:fashon_app/Feature/Login/manger/login_cubit.dart';
 import 'package:fashon_app/Feature/Login/presentation/login_page.dart';
 import 'package:fashon_app/core/blocobserve.dart';
@@ -37,8 +35,8 @@ void main() async {
 
   TOKEN = CacheHelper.getData(key: "Token") ?? '';
   UID = CacheHelper.getData(key: "UID") ?? 0;
-  print("Token Is _________---------_____ $TOKEN");
-  print("UID Is _________---------_____ $UID");
+  // print("Token Is _________---------_____ $TOKEN");
+  // print("UID Is _________---------_____ $UID");
 
   if (TOKEN == '') {
     start = const LoginPage();
@@ -93,14 +91,7 @@ class MyApp extends StatelessWidget {
                 brightness: Brightness.light,
               ),
             ),
-            home: StreamBuilder<ConnectivityResult>(
-              stream: Connectivity().onConnectivityChanged,
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                return snapshot.data == ConnectivityResult.none
-                    ? const EroorPage()
-                    : start;
-              },
-            ),
+            home: start,
           );
         },
         listener: (BuildContext context, Object? state) {},
