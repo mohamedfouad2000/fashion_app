@@ -8,6 +8,7 @@ import 'package:fashon_app/core/utils/components.dart';
 import 'package:fashon_app/core/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 // ignore: must_be_immutable
 class MainHome extends StatelessWidget {
@@ -77,7 +78,13 @@ class MainHome extends StatelessWidget {
             );
           },
           fallback: (BuildContext context) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+              child: state is GetCategoryError ||
+                      state is GetProductError ||
+                      state is GetSliderError
+                  ? Lottie.asset("assets/img/404.json")
+                  : const CircularProgressIndicator(),
+            );
           },
         );
       },

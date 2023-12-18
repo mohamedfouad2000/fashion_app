@@ -57,8 +57,10 @@ class FavPage extends StatelessWidget {
                         SizedBox(child: Lottie.asset('assets/img/empty.json')));
           },
           fallback: (BuildContext context) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: state is GetFavProductError
+                  ? Lottie.asset("assets/img/404.json")
+                  : const CircularProgressIndicator(),
             );
           },
         );

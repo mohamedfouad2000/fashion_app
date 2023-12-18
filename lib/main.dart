@@ -1,3 +1,4 @@
+import 'package:fashon_app/Feature/Boarding/presentation/boarding_view.dart';
 import 'package:fashon_app/Feature/Home/presentation/home.dart';
 import 'package:fashon_app/Feature/Home/presentation/manger/home_cubit.dart';
 import 'package:fashon_app/Feature/Home/presentation/manger/home_states.dart';
@@ -35,14 +36,20 @@ void main() async {
 
   TOKEN = CacheHelper.getData(key: "Token") ?? '';
   UID = CacheHelper.getData(key: "UID") ?? 0;
+  bool boarding = CacheHelper.getData(key: "Boarding") ?? false;
   // print("Token Is _________---------_____ $TOKEN");
   // print("UID Is _________---------_____ $UID");
 
-  if (TOKEN == '') {
-    start = const LoginPage();
+  if (boarding) {
+    if (TOKEN == '') {
+      start = const LoginPage();
+    } else {
+      start = const Homepage();
+    }
   } else {
-    start = const Homepage();
+    start = const BoardingView();
   }
+
   initializeFancyCart(
     child: MyApp(
       start: start,
